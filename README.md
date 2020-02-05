@@ -45,6 +45,7 @@ npm start
 :point_right: Ne pas oublier de sélectionner la version en bas à gauche de l'écran (clic sur `latest`).  
 - [X=Solidity](https://learnxinyminutes.com/docs/solidity/) sur _Learn X in Y minues_
 - [Solidity Cheatsheet](https://topmonks.github.io/solidity_quick_ref/) (pour versions `>=0.4.25 <0.5.0`)
+- [Solidity by Example](https://solidity-by-example.org)
 
 > :warning: Attention aux _cheat sheets_ que l'on peut trouver sur internet. Il y a plusieurs _breaking changes_ entre les versions `^0.4.0`, [`^0.5.0`](https://solidity.readthedocs.io/en/v0.5.0/050-breaking-changes.html) et [`^0.6.0`](https://solidity.readthedocs.io/en/v0.6.0/060-breaking-changes.html). Le [site officiel](https://solidity.readthedocs.io) reste la meilleure source en cas de doute.
 
