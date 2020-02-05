@@ -1,4 +1,11 @@
 # Solidity workshop
+
+## TODO
+- [ ]  Synchroniser la branche `master` avec https://github.com/FabioBonfiglio/solworkshop.git
+- [ ]  Implémenter Cagnotte
+- [ ]  Implémenter interface Participant
+- [ ]  Implémenter Donateur (solution) sur branche `develop` à protéger pour qu'elle soit également publiées sur gitub
+
 ## À propos
 Cet atelier d'initiation à Solidity et au développement de _smart contracts_ a été créé par [Fabio Bonfiglio](https://www.linkedin.com/in/fabiobonfiglio/).
 Il est en license GNU GPLv3 et donc peut être copié et adapté librement.
