@@ -7,11 +7,12 @@
 - [ ]  Implémenter Donateur (solution) sur branche `develop` à protéger pour qu'elle soit également publiées sur gitub
 
 ## À propos
-Cet atelier d'initiation à Solidity et au développement de _smart contracts_ a été créé par [Fabio Bonfiglio](https://www.linkedin.com/in/fabiobonfiglio/).
-Il est en license GNU GPLv3 et donc peut être copié et adapté librement.
+Cet atelier d'initiation à Solidity et au développement de _smart contracts_ a été créé par [Fabio Bonfiglio](https://www.linkedin.com/in/fabiobonfiglio/).  
+Il est en license GNU GPLv3 et donc peut être copié et adapté librement.  
+> :warning: **Ne pas utiliser en production (sur _Main Net_) avec de vrais fonds !!** Ces contrats n'ont pas été audités en matière de sécurité et vulnérabilités. Ils ont une **vocation éducative** uniquement.
 
 ## Contenu
-Ce dépôt git contient les fichiers nécessaires pour les exercices, et tests, ainsi que front-ends de base des contrats.
+Ce dépôt git contient les fichiers nécessaires pour les exercices, et tests, ainsi que front-ends de base des contrats.  
 Également ci-après, un recueil de liens utiles.
 
 ## Pré-requis et tests
@@ -35,6 +36,15 @@ puis lancer avec
 ```sh
 npm start
 ```
+
+## Adaptation à votre contrat
+Pour modifier le front end afin qu'il soit adapté à votre propre contrat, merci de travailler sur votre branche :
+```sh
+git checkout -b nomDeMaBranche
+```
+> Veuillez [signer vos commits](https://help.github.com/en/github/authenticating-to-github/signing-commits) si vous voulez que votre (excellent!) travail soit mergé.
+
+Créez ensuite votre contrat à la racine du répertoire `/contracts` (au même niveau que `Cagnotte.sol`)
 
 ## Liens utiles
 ### Ethereum Virtual Machine
