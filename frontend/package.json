@@ -1,0 +1,16 @@
+{
+  "name": "solworkshop_frontend",
+  "version": "0.1.0",
+  "description": "A frontend for the solidity workshop exercises",
+  "browser": "index.html",
+  "scripts": {
+    "test": "cd .. && truffle test"
+  },
+  "author": "Fabio Bonfiglio <fabio.bonfiglio@protonmail.ch>",
+  "license": "GPL-3.0-or-later",
+  "private": true,
+  "browserslist": [
+    "Firefox ESR",
+    "> 2%"
+  ]
+}

@@ -7,6 +7,17 @@ Il est en license GNU GPLv3 et donc peut être copié et adapté librement.
 Ce dépôt git contient les fichiers nécessaires pour les exercices, et tests, ainsi que front-ends de base des contrats.
 Également ci-après, un recueil de liens utiles.
 
+## Pré-requis et tests
+Pour pouvoir tester les contrats, `truffle` est requis. Si vous ne l'avez pas encore, vous pouvez l'installer depuis un terminal :
+```sh
+npm install truffle -g
+```
+
+Vous pouvez ensuite lancer les tests avec la commande :
+```sh
+truffle test
+```
+
 ## Installation front-ends
 Pour lancer le front-end sur un serveur web local, après avoir cloné le dépôt, installer les dépendances, depuis un terminal :
 ```sh
