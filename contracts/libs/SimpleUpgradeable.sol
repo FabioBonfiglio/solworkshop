@@ -28,3 +28,51 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************/
 
 pragma solidity ^0.5.14;
+
+import "./Administre.sol";
+import "./SimpleData.sol";
+
+/// @title SimpleUpgradeable
+/// @author Fabio Bonfiglio <fabio.bonfiglio@protonmail.ch>
+/// @dev Contrat de démonstration du modèle d'upgradabilité à ségrégation des données
+contract SimpleUpgradeable is Administre {
+
+	SimpleData _data;
+
+	address payable nouveauContrat;
+	bool private _upgraded;
+
+	event Upgrade(address nouvelleVersion);
+
+	constructor (SimpleData adr) internal {
+		if (address(adr) == address(0)) {
+			_data = new Data();
+		}
+		else {
+			_data = adr;
+		}
+		_upgraded = false;
+		nouveauContrat = address(0);
+	}
+
+	/// @dev Seul un contrat actif peut apeller
+	modifier seulActif() {
+		require(!_upgraded, "CONTRACT INACTIF/UPGRADED");
+		_;
+	}
+
+	/// @dev Teste si un contrat est actif
+	/// @return TRUE si le contrat est actif
+	function estActif() public view returns (bool) {
+		return !_upgraded;
+	}
+
+	/// @dev Méthode d'upgrade d'un contrat et transfert de données
+	/// @param _new Adresse du nouveau contrat
+	function upgrade(address payable _new) seulAdmin seulActif external {
+		_upgraded = true;
+		_data.transfereAdministration(_new);
+		nouveauContrat = _new;
+		emit Upgrade(_new);
+	}
+}
