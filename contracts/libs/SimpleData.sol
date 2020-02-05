@@ -36,11 +36,20 @@ import "./Administre.sol";
 /// @dev Contrat de démonstration du modèle de ségrégation des données
 contract SimpleData is Administre {
 	string constant internal ERR_LOCK = "DATA:LOCKED";
+	string constant internal UNCHANGED = "DATA:UNCHANGED";
 
+	//--- Données spécifiques ---
+	enum EtatCagnotte { Inconnu, Ouverte, Fermee, Terminee }
+	enum StatusParticipant { Inconnu, Annonce, Confirme, Annule }
+	EtatCagnotte private _etat;
+	mapping (address => StatusParticipant) private _status;
+
+	//--- Données génériques ---
 	mapping (bytes32 => bool) private _bool;
 	mapping (bytes32 => uint) private _uint;
 	mapping (bytes32 => string) private _string;
 
+	//--- Données de contrôle ---
 	bool private lock;
 
 	constructor() public {
@@ -53,17 +62,58 @@ contract SimpleData is Administre {
 		_;
 	}
 
+	/// @dev Défini l'état de la cagnotte
+	/// @param etat L'état à régler
+	function setEtatCagnotte(EtatCagnotte etat) public seulProprietaire unlocked {
+		require(etat != _etat, UNCHANGED);
+		_etat = etat;
+	}
+
+	/// @dev Défini une valeur de status
+	/// @param adr L'adresse du participant pour lequel on désire changer de status
+	/// @param status Le nouveau status auquel définir le participant
+	function setStatus(address adr, StatusParticipant status) public seulProprietaire unlocked {
+		require(status != _status[adr], UNCHANGED);
+		_status[adr] = status;
+	}
+
+	// TODO : ajoute getters pour _etat et _status[] !
+
+	/// @dev Défini une valeur booléenne
+	/// @param id L'identifiant de la variable à définir
+	/// @param newVal La valeur booléenne désirée
+	function set(bytes32 id, bool newVal) public seulProprietaire unlocked {
+		require(newVal != _bool[id], UNCHANGED);
+		_bool[id] = newVal;
+	}
+
+	/// @dev Défini une valeur numérique
+	/// @param id L'identifiant de la variable à définir
+	/// @param newVal La valeur numérique entière (uint) désirée
+	function set(bytes32 id, uint newVal) public seulProprietaire unlocked {
+		require(newVal != _uint[id], UNCHANGED);
+		_uint[id] = newVal;
+	}
+
+	/// @dev Défini une chaîne de caractères
+	/// @param id L'identifiant de la variable à définir
+	/// @param newStr La chaîne de caractères à assigner
+	function set(bytes32 id, string memory newStr) public seulProprietaire unlocked {
+		require(keccak256(abi.encode(newStr)) != keccak256(abi.encode(_string[id])), UNCHANGED);
+		_string[id] = newStr;
+	}
+
 	/// @dev Lit une variable booléenne
 	/// @param id L'identifiant de la variable à lire
 	/// @return La valeur booléenne actuelle de la variable spécifiée
-	function getBool(bytes32 id) seulProprietaire view public returns (bool) {
+	function getBool(bytes32 id) public seulProprietaire view returns (bool) {
 		return _bool[id];
 	} 
 
 	/// @dev Lit une variable numérique entière
 	/// @param id L'identifiant de la variable à lire
 	/// @return La valeur numérique entière (uint) de la variable spécifiée
-	function getUint(bytes32 id) seulProprietaire view public returns (uint) {
+	function getUint(bytes32 id) public seulProprietaire view returns (uint) {
 		return _uint[id];
 	}
 
@@ -77,6 +127,7 @@ contract SimpleData is Administre {
 	/// @dev Règle le verrouillage des données
 	/// @param state TRUE pour verrouiller les données
 	function setLock(bool state) seulProprietaire public {
+		require(state != lock, UNCHANGED);
 		lock = state;
 	}
 }
