@@ -115,7 +115,7 @@ contract Cagnotte is InterfaceCagnotte, Administre, SimpleUpgradeable  {
 		}
 	}
 
-	function annonceParticipant(interfaceParticipant adr) external seulActif cagnotteOuverte {
+	function annonceParticipant(Participant adr) external seulActif cagnotteOuverte {
 		_data.setStatus(adr, _data.StatusParticipant.Annonce);
 	}
 
@@ -126,11 +126,11 @@ contract Cagnotte is InterfaceCagnotte, Administre, SimpleUpgradeable  {
 		emit NouveauParticipantConfirme(msg.sender, msg.value);
 	}
 
-	function annonceAnnulation(interfaceParticipant adr) external seulActif seulConfirme {
+	function annonceAnnulation(Participant adr) external seulActif seulConfirme {
 		rembourseParticipant(adr);
 	}
 	
-	function rembourseParticipant(interfaceParticipant adr) internal seulActif {
+	function rembourseParticipant(Participant adr) internal seulActif {
 		uint remboursement = _data.getParticipation(adr);
 		_data.resetParticipation(adr);
 		adr.annuleParticipation.value(remboursement)();

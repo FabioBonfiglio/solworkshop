@@ -32,7 +32,7 @@ pragma solidity ^0.5.14;
 import "./Participant.sol";
 
 interface InterfaceCagnotte {
-	function annonceParticipant(interfaceParticipant adr) external;
+	function annonceParticipant(Participant adr) external;
 	function confirmeParticipant(address payable beneficiaire) external;
-	function annonceAnnulation(interfaceParticipant adr) external;
+	function annonceAnnulation(Participant adr) external;
 }
