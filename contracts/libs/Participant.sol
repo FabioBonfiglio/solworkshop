@@ -32,7 +32,7 @@ pragma solidity ^0.5.14;
 interface interfaceParticipant {
 	/// @dev Si ce n'est pas la cagnotte qui appelle cette méthode, alors
 	/// @dev doit appeller la méthode annonceAnnulation(address(this)) de la cagnotte.
-	function annuleParticipation() external;
+	function annuleParticipation() external payable;
 }
 
 /// @dev Le constructeur devra appeller la méthode annonceParticipant(address(this)) de la cagnotte

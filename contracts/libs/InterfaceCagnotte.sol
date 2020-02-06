@@ -33,6 +33,6 @@ import "./Participant.sol";
 
 interface InterfaceCagnotte {
 	function annonceParticipant(interfaceParticipant adr) external;
-	function confirmeParticipant() external;
+	function confirmeParticipant(address payable beneficiaire) external;
 	function annonceAnnulation(interfaceParticipant adr) external;
 }

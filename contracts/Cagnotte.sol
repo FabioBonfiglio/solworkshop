@@ -38,16 +38,21 @@ import "libs/InterfaceCagnotte.sol";
 /// @dev Contrat cagnotte publique, décentralisée, sécurisée et démocratique :)
 contract Cagnotte is InterfaceCagnotte, Administre, SimpleUpgradeable  {
 
-	bytes32 constant contribMin = keccak256("contributionMinimum");
+	string constant MSG_TERMINEE = "CAGNOTTE_TERMINEE";
 
-	// TODO : remplacer accès direct par getters pour les variables membres de _data !!
+	bytes32 constant contribMin = keccak256("contributionMinimum");
+	bytes32 constant tDerniereContrib = kexxak256("timestampDerniereContribution");
+	
+	event NouveauParticipantConfirme(address indexed participant, uint montant, uint cagnotte);
+	event AnnulationParticipant(address indexed participant, uint cagnotte);
+	event EtatCagnotte(bool ouverte);
 
 	/// @param minimum Le montant minimum de contribution pour pouvoir participer
 	constructor(uint minimum) public {
 		if (minimum == 0) {
 			minimum = 1 finney;
 		}
-		_data.etat = _data.EtatCagnotte.Fermee; // La cagnotte est initialement fermée
+		_data.setEtatCagnotte(_data.EtatCagnotte.Fermee); // La cagnotte est initialement fermée
 		_data.set(contribMin, minimum);
 	}
 
@@ -62,13 +67,13 @@ contract Cagnotte is InterfaceCagnotte, Administre, SimpleUpgradeable  {
 	}
 
 	modifier cagnotteOuverte() {
-		if (_data.etat == _data.EtatCagnotte.Fermee) {
+		if (_data.getEtatCagnotte() == _data.EtatCagnotte.Fermee) {
 			revert("CAGNOTTE_FERMEE");
 		}
-		else if (_data.etat == _data.EtatCagnotte.Terminee) {
-			revert("CAGNOTTE_TERMINEE");
+		else if (_data.getEtatCagnotte() == _data.EtatCagnotte.Terminee) {
+			revert(MSG_TERMINEE);
 		}
-		else if (_data.etat == _data.EtatCagnotte.Ouverte) {
+		else if (_data.getEtatCagnotte() == _data.EtatCagnotte.Ouverte) {
 			_;
 		}
 		else {
@@ -78,31 +83,64 @@ contract Cagnotte is InterfaceCagnotte, Administre, SimpleUpgradeable  {
 
 	/// @dev Méthode interne de contrôle de status d'un participant
 	/// @param adr L'adresse du participant à vérifier
-	/// @return VRAI si l'adresse a été annoncée comme participant
+	/// @return VRAI si l'adresse a été annoncée comme participant ou est l'admin
 	function estParticipant(address adr) private view returns (bool) {
-		return ( _data.status[adr] != StatusParticipant.Inconnu );
+		return ( _data.getStatus(adr) != _data.StatusParticipant.Inconnu || estAdmin());
 	}
 
 	/// @dev Méthode interne de contrôle de status d'un participant
 	/// @param adr L'adresse du participant à vérifier
 	/// @return VRAI si le participant est confirmé (et n'est pas annulé).
 	function estConfirme(address adr) private view returns (bool) {
-		return ( _data.status[adr] == StatusParticipant.Confirme );
+		return ( _data.getStatus(adr) == _data.StatusParticipant.Confirme );
 	}
 
 	function ouvreCagnotte() public seulActif seulAdmin {
-		// TODO : continue !
+		if (_data.getEtatCagnotte() == _data.EtatCagnotte.Terminee) {
+			revert(MSG_TERMINEE);
+		}
+		else {
+			_data.setEtatCagnotte(_data.EtatCagnotte.Ouverte);
+			emit EtatCagnotte(true);
+		}
 	}
 
-	function annonceParticipant(Participant adr) external seulActif cagnotteOuverte {
-		_data.status[adr] = StatusParticipant.Annonce;
-		// TODO : continue !
+	function fermeCagnotte() public seulActif seulAdmin {
+		if (_data.getEtatCagnotte() == _data.EtatCagnotte.Terminee) {
+			revert(MSG_TERMINEE);
+		}
+		else {
+			_data.setEtatCagnotte(_data.EtatCagnotte.Fermee);
+			emit EtatCagnotte(false);
+		}
 	}
 
-	function confirmeParticipant() external seulActif cagnotteOuverte seulParticipant {
-		_data.status[adr] = StatusParticipant.Confirme;
-		// TODO : continue !
+	function annonceParticipant(interfaceParticipant adr) external seulActif cagnotteOuverte {
+		_data.setStatus(adr, _data.StatusParticipant.Annonce);
 	}
 
-	// TODO : continue !
+	function confirmeParticipant(address payable beneficiaire) external seulActif cagnotteOuverte seulParticipant {
+		require(msg.value >= _data.getUint(contribMin) || , "CONTRIBUTION_INSUFFISANTE");
+		_data.addParticipation(msg.sender, msg.value, beneficiaire);
+		_data.set(tDerniereContrib, now);
+		emit NouveauParticipantConfirme(msg.sender, msg.value);
+	}
+
+	function annonceAnnulation(interfaceParticipant adr) external seulActif seulConfirme {
+		rembourseParticipant(adr);
+	}
+	
+	function rembourseParticipant(interfaceParticipant adr) internal seulActif {
+		uint remboursement = _data.getParticipation(adr);
+		_data.resetParticipation(adr);
+		adr.annuleParticipation.value(remboursement)();
+	}
+
+	function montantCagnotte() public view seulActif returns (uint) {
+		// TODO : continue !
+	}
+	
+	function termineCagnotte() {
+		// TODO : continue !
+	}
 }

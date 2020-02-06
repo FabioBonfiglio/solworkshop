@@ -41,8 +41,15 @@ contract SimpleData is Administre {
 	//--- Données spécifiques ---
 	enum EtatCagnotte { Inconnu, Ouverte, Fermee, Terminee }
 	enum StatusParticipant { Inconnu, Annonce, Confirme, Annule }
+	struct Participation {
+		StatusParticipant status;
+		uint index;
+		uint montant;
+		address payable nomine;
+	}
 	EtatCagnotte private _etat;
-	mapping (address => StatusParticipant) private _status;
+	address[] private _participants;
+	mapping (address => Participation) private _participation;
 
 	//--- Données génériques ---
 	mapping (bytes32 => bool) private _bool;
@@ -73,8 +80,12 @@ contract SimpleData is Administre {
 	/// @param adr L'adresse du participant pour lequel on désire changer de status
 	/// @param status Le nouveau status auquel définir le participant
 	function setStatus(address adr, StatusParticipant status) public seulProprietaire unlocked {
-		require(status != _status[adr], UNCHANGED);
-		_status[adr] = status;
+		require(status != _participation[adr].status, UNCHANGED);
+		if (_participation[adr].status == StatusParticipant.Inconnu) {
+			_participation[adr].index = _participants.length;
+			_participants.push(adr);
+		}
+		_participation[adr].status = status;
 	}
 
 	/// @return La valeur d'état de la cagnotte
@@ -82,11 +93,49 @@ contract SimpleData is Administre {
 		return _etat;
 	}
 
+	/// @return Un tableau contenant les adresses de chaque participant, à utiliser pour itération des mapping
+	function getParticipants() public view seulProprietaire returns (address[] memory) {
+		return _participants;
+	}
+
 	/// @dev Lit le status d'un participant
 	/// @param adr L'adresse du participant désiré
 	/// @return Le status actuel du participant indiqué
 	function getStatus(address adr) public view seulProprietaire returns (StatusParticipant) {
-		return _status[adr];
+		return _participation[adr].status;
+	}
+
+	/// @dev Ajoute le montant à la cagnotte sur le compte du participant et nomine un bénéficiaire
+	/// @param part L'adresse du participant
+	/// @param val Le montant à ajouter
+	/// @param nom L'adresse du bénéficiaire nominé
+	function addParticipation(address part, uint val, address payable nom) public seulProprietaire unlocked {
+		_participation[part].montant += val;
+		_participation[part].nomine = nom;
+		if (_participation[part].status != StatusParticipant.Confirme && _participation[part].montant > 0) {
+			_participation[part].status = StatusParticipant.Confirme;
+		}
+	}
+	
+	/// @dev Remet le montant de participation à zéro pour le compte indiqué
+	/// @param adr L'adresse du participant
+	function resetParticipation(address adr) public seulProprietaire unlocked {
+		_participation[adr].montant = 0;
+		_participation[adr].status = StatusParticipant.Annule;
+	}
+	
+	/// @dev Lit la valeur actuelle de participation du compte indiqué
+	/// @param adr L'adresse du participant
+	/// @return Le montant de la participation
+	function getParticipation(address adr) public view seulProprietaire returns (uint) {
+		return _participation[adr].montant;
+	}
+
+	/// @dev Lit le bénéficiaire nominé par un participant
+	/// @param adr L'adresse du participant
+	/// @return L'adresse du nominé actuel de ce participant
+	function getNomine(address adr) public view seulProprietaire returns (address payable) {
+		return _participation[adr].nomine;
 	}
 
 	/// @dev Défini une valeur booléenne
