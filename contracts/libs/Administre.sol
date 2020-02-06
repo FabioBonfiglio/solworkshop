@@ -31,19 +31,15 @@ pragma solidity ^0.5.12;
 
 /// @title Administré
 /// @dev À hériter pour donner des propriétés et restrictions d'administration.
-/// @dev Permet également un système de (255) niveaux d'autorisation d'accès.
 contract Administre {
 
 	string constant internal ERR_NON_ADMIN = "ADMIN:NON_ADMINISTRATEUR";
 	string constant internal ERR_NON_PROPRIERAIRE = "ADMIN:NON_PROPRIETAIRE";
-	string constant internal ERR_NON_AUTORISE = "ADMIN:NON_AUTORISE";
 	string constant internal ERR_MAUVAISE_ADRESSE = "ADMIN:MAUVAISE_ADRESSE";
 
 	address private admin;
-	mapping (address => uint8) private autorisations;
 
 	event NouvelAdministrateur(address indexed adminPrecedent, address indexed nouvelAdmin);
-	event NouvelleAutorisation(address indexed nouvelAutorise, uint8 niveau);
 
 	/// @dev Le "déployeur" est l'administrateur de départ
 	constructor() internal {
@@ -55,13 +51,6 @@ contract Administre {
 	/// @dev Exception si l'apellant n'est pas l'admin
 	modifier seulAdmin() {
 		require(estAdmin(), ERR_NON_ADMIN);
-		_;
-	}
-
-	/// @dev Exception si l'apellant n'a pas d'autorisation
-	/// @param niveau Le niveau d'autorisation requis
-	modifier seulAutorise(uint8 niveau) {
-		require(estAutorise(niveau), ERR_NON_AUTORISE);
 		_;
 	}
 
@@ -77,25 +66,10 @@ contract Administre {
 		return admin;
 	}
 
-	/// @dev Contrôle si l'apellant est l'administrateur ou un délégué (aut. >=128)
+	/// @dev Contrôle si l'apellant est l'administrateur ou un délégué (aut. >=240)
 	/// @return Vrai si l'apellant est l'administrateur
 	function estAdmin() public view returns (bool) {
 		return (msg.sender == admin) || (estAutorise(0xF0));
-	}
-
-	/// @dev Contrôle si l'apellant a le niveau d'autorisation requis
-	/// @param niveau Le niveau d'autorisation minimal requis
-	/// @return Vrai si l'apellant est autorisé au niveau spécifié
-	function estAutorise(uint8 niveau) public view returns (bool) {
-		return autorisations[msg.sender] >= niveau;
-	}
-	
-	/// @dev Modifie le niveau d'autorisation d'une adresse-identité
-	/// @param id L'adresse-identité à qui conférer le niveau d'autorisation
-	/// @param niveau Le nouveau niveau d'autorisation (0 pour révoquer)
-	function autorise(address id, uint8 niveau) public seulAdmin() {
-		autorisations[id] = niveau;
-		emit NouvelleAutorisation(id, niveau);
 	}
 
 	/// @dev Abandon de l'administration :warning:
