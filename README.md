@@ -1,11 +1,5 @@
 # Solidity workshop
 
-## TODO
-- [ ]  Synchroniser la branche `master` avec https://github.com/FabioBonfiglio/solworkshop.git
-- [ ]  Implémenter Cagnotte
-- [ ]  Implémenter interface Participant
-- [ ]  Implémenter Donateur (solution) sur branche `develop` à protéger pour qu'elle soit également publiées sur gitub
-
 ## À propos
 Cet atelier d'initiation à Solidity et au développement de _smart contracts_ a été créé par [Fabio Bonfiglio](https://www.linkedin.com/in/fabiobonfiglio/).  
 Il est en license GNU GPLv3 et donc peut être copié et adapté librement.  
@@ -15,7 +9,21 @@ Il est en license GNU GPLv3 et donc peut être copié et adapté librement.
 Ce dépôt git contient les fichiers nécessaires pour les exercices, et tests, ainsi que front-ends de base des contrats.  
 Également ci-après, un recueil de liens utiles.
 
-## Pré-requis et tests
+## Exercice 1
+Implémenter un contrat qui utilise l'interface `exemples/InterfaceExercice.sol`.
+
+## Exercice 2 - Cagnotte démocratique
+Développement d’un système de cagnotte décentralisée, sécurisée et démocratique.
+- Un contrat `Cagnotte.sol` est déployé
+	- La cagnotte tient le compte des participants et du montant des participations
+	- Ce contrat tient également le compte des nominations au titre de bénéficiaire final
+	- La cagnotte distribuera la totalité de son contenu à chaque nominé proportionnellement aux votes reçus
+- Chaque « donateur » peut alors déployer son propre contrat, répondant à l’interface `libs/Participant.sol`.
+	- Le constructeur du contrat doit designer à quelle cagnotte il doit participer, en utilisant l'interface `libs/InterfaceCagnotte.sol`
+	- Chaque « donateur » peut nominer un bénéficiaire final pour lequel il donne son vote
+	-	Chaque « donateur » peut se retirer à tout moment tant que l’attribution finale n’a pas été exécutée
+
+### Pré-requis et tests
 Pour pouvoir tester les contrats, `truffle` est requis. Si vous ne l'avez pas encore, vous pouvez l'installer depuis un terminal :
 ```sh
 npm install truffle -g
@@ -26,7 +34,7 @@ Vous pouvez ensuite lancer les tests avec la commande :
 truffle test
 ```
 
-## Installation front-ends
+### Installation front-ends
 Pour lancer le front-end sur un serveur web local, après avoir cloné le dépôt, installer les dépendances, depuis un terminal :
 ```sh
 cd solworkshop/frontend
@@ -37,7 +45,7 @@ puis lancer avec
 npm start
 ```
 
-## Adaptation à votre contrat
+### Adaptation à votre contrat
 Pour modifier le front end afin qu'il soit adapté à votre propre contrat, merci de travailler sur votre branche :
 ```sh
 git checkout -b nomDeMaBranche
