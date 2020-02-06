@@ -77,7 +77,17 @@ contract SimpleData is Administre {
 		_status[adr] = status;
 	}
 
-	// TODO : ajoute getters pour _etat et _status[] !
+	/// @return La valeur d'état de la cagnotte
+	function getEtatCagnotte() public view seulProprietaire returns (EtatCagnotte) {
+		return _etat;
+	}
+
+	/// @dev Lit le status d'un participant
+	/// @param adr L'adresse du participant désiré
+	/// @return Le status actuel du participant indiqué
+	function getStatus(address adr) public view seulProprietaire returns (StatusParticipant) {
+		return _status[adr];
+	}
 
 	/// @dev Défini une valeur booléenne
 	/// @param id L'identifiant de la variable à définir
