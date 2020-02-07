@@ -1,4 +1,7 @@
 # Solidity workshop
+> :warning: Ce dépôt github est synchronisé automatiquement depuis un serveur Gitlab privé. C'est ce dernier qui est utilisé pour le développement. Pour toute contribution ou merge request, veuillez contacter le maintainer.
+
+> :warning: L'exercice 2 est encore en développement.
 
 ## À propos
 Cet atelier d'initiation à Solidity et au développement de _smart contracts_ a été créé par [Fabio Bonfiglio](https://www.linkedin.com/in/fabiobonfiglio/).  
