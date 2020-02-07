@@ -136,8 +136,18 @@ contract Cagnotte is InterfaceCagnotte, Administre, SimpleUpgradeable  {
 		adr.annuleParticipation.value(remboursement)();
 	}
 
+	/// @dev Méthode de calcul/vérification du montant total actuellement géré par la cagnotte
+	/// @dev En utilisant la méthode native address.balance on devrait arriver au même nombre !
+	/// @return La valeur totale qui sera distribuée par la cagnotte.
 	function montantCagnotte() public view seulActif returns (uint) {
-		// TODO : continue !
+		uint[] memory participants = _data.getParticipants();
+		uint value = 0;
+		for (uint i=0; i<participants.length; ++i) {
+			if (_data.getStatus(participants[i]) == _data.StatusParticipant.Confirme) {
+				value += _data.getParticipation(participants[i]);
+			}
+		}
+		return value;
 	}
 	
 	function termineCagnotte() {
