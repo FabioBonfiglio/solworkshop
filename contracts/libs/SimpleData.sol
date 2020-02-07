@@ -2,7 +2,7 @@
 
 	8888888888 888888b.    .d88888b.           888
 	888        888  "88b  d88P" "Y88b          888
-	888        888  .88P  888     888          888 
+	888        888  .88P  888     888          888
 	8888888    8888888K.  888     888      .d88888  .d88b.  888  888
 	888        888  "Y88b 888     888     d88" 888 d8P  Y8b 888  888
 	888        888    888 888     888     888  888 88888888 Y88  88P
@@ -116,14 +116,14 @@ contract SimpleData is Administre {
 			_participation[part].status = StatusParticipant.Confirme;
 		}
 	}
-	
+
 	/// @dev Remet le montant de participation à zéro pour le compte indiqué
 	/// @param adr L'adresse du participant
 	function resetParticipation(address adr) public seulProprietaire unlocked {
 		_participation[adr].montant = 0;
 		_participation[adr].status = StatusParticipant.Annule;
 	}
-	
+
 	/// @dev Lit la valeur actuelle de participation du compte indiqué
 	/// @param adr L'adresse du participant
 	/// @return Le montant de la participation
