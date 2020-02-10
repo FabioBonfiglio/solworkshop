@@ -4,7 +4,7 @@
 > :warning: L'exercice 2 est encore en développement.
 
 ## À propos
-Cet atelier d'initiation à Solidity et au développement de _smart contracts_ a été créé par [Fabio Bonfiglio](https://www.linkedin.com/in/fabiobonfiglio/).  
+Cet atelier d'initiation à Solidity et au développement de _smart contracts_ a été créé par [Fabio Bonfiglio](https://fabio_bonfiglio.keybase.pub/).  
 Il est en license GNU GPLv3 et donc peut être copié et adapté librement.  
 > :warning: **Ne pas utiliser en production (sur _Main Net_) avec de vrais fonds !!** Ces contrats n'ont pas été audités en matière de sécurité et vulnérabilités. Ils ont une **vocation éducative** uniquement.
 
