@@ -13,7 +13,8 @@ Ce dépôt git contient les fichiers nécessaires pour les exercices, et tests, 
 Également ci-après, un recueil de liens utiles.
 
 ## Exercice 1
-Implémenter un contrat qui utilise l'interface `exemples/InterfaceExercice.sol`.
+1. Implémenter un contrat qui utilise l'interface `exemples/InterfaceExercice.sol`.
+2. Modifier ce contrat pour que seul l'auteur d'un message puisse le récupérer.
 
 ## Exercice 2 - Cagnotte démocratique
 Développement d’un système de cagnotte décentralisée, sécurisée et démocratique.
@@ -97,6 +98,11 @@ Créez ensuite votre contrat à la racine du répertoire `/contracts` (au même 
 ##### Online
 - [Remix Ethereum IDE](https://remix.ethereum.org) pour les projets de contrats simples
 - [Ethereum Studio](https://superblocks.com/ethereum-studio/) Incluant développement de front-ends HTML5 avec support [EIP82](https://github.com/ethereum/EIPs/issues/82)
+
+#### Noeuds Ethereum
+Si vous voulez mettre en place un noeud Ethereum, sur votre machine ou sur un serveur privé (recommandé au moins 8 GB RAM et 4 coeurs + 1TB **SSD**):
+- Pour un noeud _Main net_ : [Parity Ethereum](https://github.com/paritytech/parity-ethereum/releases) (implémentation en Rust)
+- Pour un noeud _Main net_ ou réseau de test (_Rinkeby_ par exemple) : [Geth](https://geth.ethereum.org/docs/install-and-build/installing-geth) (implémentation en Go)
 
 #### Frameworks
 - [Truffle](https://www.trufflesuite.com/truffle)
