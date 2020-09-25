@@ -69,7 +69,7 @@ contract Administre {
 	/// @dev Contrôle si l'apellant est l'administrateur ou un délégué (aut. >=240)
 	/// @return Vrai si l'apellant est l'administrateur
 	function estAdmin() public view returns (bool) {
-		return (msg.sender == admin) || (estAutorise(0xF0));
+		return msg.sender == admin;
 	}
 
 	/// @dev Abandon de l'administration :warning:

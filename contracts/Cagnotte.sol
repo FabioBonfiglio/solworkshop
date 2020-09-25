@@ -29,9 +29,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 pragma solidity ^0.5.14;
 
-import "libs/Administre.sol";
-import "libs/SimpleUpgradeable.sol";
-import "libs/InterfaceCagnotte.sol";
+import "./libs/Administre.sol";
+import "./libs/SimpleUpgradeable.sol";
+import "./libs/InterfaceCagnotte.sol";
 
 /// @title Cagnotte
 /// @author Fabio Bonfiglio <fabio.bonfiglio@protonmail.ch>
@@ -41,7 +41,7 @@ contract Cagnotte is InterfaceCagnotte, Administre, SimpleUpgradeable  {
 	string constant MSG_TERMINEE = "CAGNOTTE_TERMINEE";
 
 	bytes32 constant contribMin = keccak256("contributionMinimum");
-	bytes32 constant tDerniereContrib = kexxak256("timestampDerniereContribution");
+	bytes32 constant tDerniereContrib = keccak256("timestampDerniereContribution");
 	
 	event NouveauParticipantConfirme(address indexed participant, uint montant, uint cagnotte);
 	event AnnulationParticipant(address indexed participant, uint cagnotte);
@@ -120,7 +120,7 @@ contract Cagnotte is InterfaceCagnotte, Administre, SimpleUpgradeable  {
 	}
 
 	function confirmeParticipant(address payable beneficiaire) external seulActif cagnotteOuverte seulParticipant {
-		require(msg.value >= _data.getUint(contribMin) || , "CONTRIBUTION_INSUFFISANTE");
+		require(msg.value >= _data.getUint(contribMin), "CONTRIBUTION_INSUFFISANTE");
 		_data.addParticipation(msg.sender, msg.value, beneficiaire);
 		_data.set(tDerniereContrib, now);
 		emit NouveauParticipantConfirme(msg.sender, msg.value);

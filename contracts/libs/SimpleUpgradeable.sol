@@ -46,7 +46,7 @@ contract SimpleUpgradeable is Administre {
 
 	constructor (SimpleData adr) internal {
 		if (address(adr) == address(0)) {
-			_data = new Data();
+			_data = new SimpleData();
 		}
 		else {
 			_data = adr;
