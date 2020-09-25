@@ -43,16 +43,12 @@ Vous pouvez ensuite lancer les tests avec la commande :
 truffle test
 ```
 
-### Installation front-ends
-Pour lancer le front-end sur un serveur web local, après avoir cloné le dépôt, installer les dépendances, depuis un terminal :
+### Intéraction avec le contrat déployé
+Pour intéragir avec le contrat déployé sur la chaîne locale, utiliser la [console truffle](https://www.trufflesuite.com/docs/truffle/getting-started/using-truffle-develop-and-the-console):
 ```sh
-cd solworkshop/frontend
-npm install
+truffle develop
 ```
-puis lancer avec
-```sh
-npm start
-```
+On pourra alors se connecter à l'instance du contrat via les commandes d'[abstraction](https://www.trufflesuite.com/docs/truffle/reference/contract-abstractions).
 
 ### Adaptation à votre contrat
 Pour modifier le front end afin qu'il soit adapté à votre propre contrat, merci de travailler sur votre branche :
