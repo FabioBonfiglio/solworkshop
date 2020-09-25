@@ -33,18 +33,13 @@ Pour pouvoir tester les contrats, `truffle` est requis. Si vous ne l'avez pas en
 npm install truffle -g
 ```
 
-Après avoir lancé une blockchain de développement dans un terminal séparé, par exemple avec la commande suivante, qui permet de générer de façon déterministique une seed phrase, 5 comptes ethereum avec 10 ETH chacun :
-```sh
-ganache-cli -s "chaineDeSeedDeVotreChoix" --accounts 5 -e 10
-```
-
 Vous pouvez ensuite lancer les tests avec la commande :
 ```sh
 truffle test
 ```
 
-### Intéraction avec le contrat déployé
-Pour intéragir avec le contrat déployé sur la chaîne locale, utiliser la [console truffle](https://www.trufflesuite.com/docs/truffle/getting-started/using-truffle-develop-and-the-console):
+### Interaction et tests du contrat
+Pour tester et interagir avec le contrat sur une chaîne de test locale, utiliser la [console truffle](https://www.trufflesuite.com/docs/truffle/getting-started/using-truffle-develop-and-the-console):
 ```sh
 truffle develop
 ```
